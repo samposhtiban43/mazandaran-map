@@ -45,10 +45,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script>
-        // ایجاد نقشه و تنظیم مرکز و زوم
         var map = L.map('map').setView([36.565, 53.058], 9); // تنظیم مختصات و زوم برای استان مازندران
 
-        // اضافه کردن Tile Layer از سرویس آنلاین
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             maxZoom: 18
@@ -56,7 +54,6 @@
 
         var policeStationsLayer;
 
-        // ایجاد دکمه برای نمایش نقاط کلانتری
         document.getElementById('showPoliceStations').addEventListener('click', function() {
             if (!policeStationsLayer) {
                 fetch('sharjm.geojson')
