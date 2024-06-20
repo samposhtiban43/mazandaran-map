@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"name": "sharjm",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "Point", "coordinates": [ 50.938436873770911, 36.766245087481778 ] } },
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "Point", "coordinates": [ 51.326966676191461, 36.609338821119628 ] } },
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "Point", "coordinates": [ 51.984478649518557, 36.575716049756316 ] } },
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "Point", "coordinates": [ 52.608367851482328, 36.661640909907014 ] } },
+{ "type": "Feature", "properties": { "id": null }, "geometry": { "type": "Point", "coordinates": [ 53.071614923599142, 36.478583599151179 ] } }
+]
+}

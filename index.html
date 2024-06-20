@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map with Police Stations</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 100vh; }
+        #showPoliceStations {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 5px 10px;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="showPoliceStations">Show Police Stations</div>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // ایجاد نقشه و تنظیم مرکز و زوم
+        var map = L.map('map').setView([36.565, 53.058], 10); // این مختصات را بر اساس منطقه مورد نظر خود تغییر دهید
+
+        // اضافه کردن Tile Layer از OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var policeStationsLayer;
+
+        // ایجاد دکمه برای نمایش نقاط کلانتری
+        document.getElementById('showPoliceStations').addEventListener('click', function() {
+            if (!policeStationsLayer) {
+                fetch('sharjm.geojson')
+                    .then(response => response.json())
+                    .then(data => {
+                        policeStationsLayer = L.geoJSON(data).addTo(map);
+                    })
+                    .catch(error => console.error(error));
+            } else {
+                if (map.hasLayer(policeStationsLayer)) {
+                    map.removeLayer(policeStationsLayer);
+                    document.getElementById('showPoliceStations').innerText = 'Show Police Stations';
+                } else {
+                    map.addLayer(policeStationsLayer);
+                    document.getElementById('showPoliceStations').innerText = 'Hide Police Stations';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
