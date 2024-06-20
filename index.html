@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="fa">
 <head>
-    <title>Map with Police Stations</title>
+    <title>Online Map of Mazandaran with Police Stations</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
-        #map { height: 100vh; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
         #showPoliceStations {
             position: absolute;
             top: 10px;
@@ -16,20 +25,33 @@
             padding: 5px 10px;
             border: 1px solid black;
             cursor: pointer;
+            border-radius: 5px;
+        }
+        @media (max-width: 768px) {
+            #showPoliceStations {
+                top: 5px;
+                left: 5px;
+                padding: 10px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="showPoliceStations">Show Police Stations</div>
+    <div id="showPoliceStations" class="btn btn-primary">Show Police Stations</div>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script>
         // ایجاد نقشه و تنظیم مرکز و زوم
-        var map = L.map('map').setView([36.565, 53.058], 10); // این مختصات را بر اساس منطقه مورد نظر خود تغییر دهید
+        var map = L.map('map').setView([36.565, 53.058], 9); // تنظیم مختصات و زوم برای استان مازندران
 
-        // اضافه کردن Tile Layer از OpenStreetMap
+        // اضافه کردن Tile Layer از سرویس آنلاین
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: 'Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 18
         }).addTo(map);
 
         var policeStationsLayer;
@@ -41,15 +63,22 @@
                     .then(response => response.json())
                     .then(data => {
                         policeStationsLayer = L.geoJSON(data).addTo(map);
+                        document.getElementById('showPoliceStations').innerText = 'Hide Police Stations';
+                        document.getElementById('showPoliceStations').classList.remove('btn-primary');
+                        document.getElementById('showPoliceStations').classList.add('btn-danger');
                     })
                     .catch(error => console.error(error));
             } else {
                 if (map.hasLayer(policeStationsLayer)) {
                     map.removeLayer(policeStationsLayer);
                     document.getElementById('showPoliceStations').innerText = 'Show Police Stations';
+                    document.getElementById('showPoliceStations').classList.remove('btn-danger');
+                    document.getElementById('showPoliceStations').classList.add('btn-primary');
                 } else {
                     map.addLayer(policeStationsLayer);
                     document.getElementById('showPoliceStations').innerText = 'Hide Police Stations';
+                    document.getElementById('showPoliceStations').classList.remove('btn-primary');
+                    document.getElementById('showPoliceStations').classList.add('btn-danger');
                 }
             }
         });
